@@ -1,0 +1,369 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduManage - Student Management</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="data:,">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+<div class="app">
+
+    <aside class="sidebar">
+        <h2><i class="fas fa-graduation-cap"></i> EduManage</h2>
+
+        <p class="menu-title">MAIN MENU</p>
+
+        <a href="#dashboard" class="nav-link active" data-page="dashboard">
+            <i class="fas fa-chart-pie"></i> Dashboard
+        </a>
+
+        <a href="#students" class="nav-link" data-page="students">
+            <i class="fas fa-user-graduate"></i> Students
+        </a>
+
+        <a href="#attendance" class="nav-link" data-page="attendance">
+            <i class="fas fa-calendar-check"></i> Attendance
+        </a>
+
+        <a href="#results" class="nav-link" data-page="results">
+            <i class="fas fa-book"></i> Results
+        </a>
+
+        <div class="sidebar-bottom">
+            <i class="fas fa-circle-user"></i>
+            <div>
+                <strong>Administrator</strong>
+                <small>School Admin</small>
+            </div>
+        </div>
+    </aside>
+
+    <main class="main-content">
+
+        <header class="topbar">
+            <div>
+                <h2 id="pageTitle">Dashboard</h2>
+                <p>Welcome back! Manage your school efficiently.</p>
+            </div>
+
+            <div class="top-actions">
+                <span id="todayDate"></span>
+                <button class="primary-btn" id="headerAddBtn">
+                    <i class="fas fa-plus"></i> Add Student
+                </button>
+            </div>
+        </header>
+
+        <!-- DASHBOARD -->
+
+        <section class="page active" id="dashboard">
+
+            <div class="stats-grid">
+
+                <div class="stat-card">
+                    <div class="stat-icon blue"><i class="fas fa-users"></i></div>
+                    <p>Total Students</p>
+                    <h2 id="totalStudents">0</h2>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon green"><i class="fas fa-user-check"></i></div>
+                    <p>Active Students</p>
+                    <h2 id="activeStudents">0</h2>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon orange"><i class="fas fa-male"></i></div>
+                    <p>Male Students</p>
+                    <h2 id="maleStudents">0</h2>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon purple"><i class="fas fa-female"></i></div>
+                    <p>Female Students</p>
+                    <h2 id="femaleStudents">0</h2>
+                </div>
+
+            </div>
+
+            <div class="dashboard-grid">
+
+                <div class="panel">
+                    <div class="panel-heading">
+                        <h3>Recent Students</h3>
+                        <button class="text-btn" data-go="students">View All</button>
+                    </div>
+
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Student</th>
+                                    <th>Class</th>
+                                    <th>Phone</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recentStudents"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <h3>Student Overview</h3>
+                    <div class="overview-number" id="overviewTotal">0</div>
+                    <p>Total registered students</p>
+                    <div class="progress-track">
+                        <div class="progress-fill" id="activeProgress"></div>
+                    </div>
+                    <p id="activePercentage">0% active students</p>
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- STUDENTS -->
+
+        <section class="page" id="students">
+
+            <div class="panel">
+
+                <div class="panel-heading">
+                    <div>
+                        <h3>Student Directory</h3>
+                        <p>Manage all registered students.</p>
+                    </div>
+
+                    <button class="primary-btn" id="addStudentBtn">
+                        <i class="fas fa-plus"></i> Add Student
+                    </button>
+                </div>
+
+                <div class="filters">
+
+                    <input type="search" id="searchInput"
+                        placeholder="Search name, ID or phone...">
+
+                    <select id="classFilter">
+                        <option value="">All Classes</option>
+                        <option value="Class 6">Class 6</option>
+                        <option value="Class 7">Class 7</option>
+                        <option value="Class 8">Class 8</option>
+                        <option value="Class 9">Class 9</option>
+                        <option value="Class 10">Class 10</option>
+                    </select>
+
+                    <select id="statusFilter">
+                        <option value="">All Status</option>
+                        <option value="Active">Active</option>
+                        <option value="Inactive">Inactive</option>
+                    </select>
+
+                    <select id="sortFilter">
+                        <option value="newest">Newest First</option>
+                        <option value="oldest">Oldest First</option>
+                        <option value="name">Name A-Z</option>
+                        <option value="marks">Highest Marks</option>
+                    </select>
+
+                    <button class="secondary-btn" id="exportBtn">
+                        <i class="fas fa-download"></i> Export CSV
+                    </button>
+
+                </div>
+
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Student ID</th>
+                                <th>Name</th>
+                                <th>Gender</th>
+                                <th>Class</th>
+                                <th>Phone</th>
+                                <th>Marks</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="studentTable"></tbody>
+                    </table>
+                </div>
+
+                <div class="pagination">
+                    <span id="paginationInfo">Showing 0 students</span>
+                    <div>
+                        <button id="prevBtn">Previous</button>
+                        <button id="nextBtn">Next</button>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- ATTENDANCE -->
+
+        <section class="page" id="attendance">
+
+            <div class="panel">
+                <div class="panel-heading">
+                    <div>
+                        <h3>Attendance Management</h3>
+                        <p>Mark student attendance for today.</p>
+                    </div>
+                    <span id="attendanceDate"></span>
+                </div>
+
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Student ID</th>
+                                <th>Name</th>
+                                <th>Class</th>
+                                <th>Attendance</th>
+                            </tr>
+                        </thead>
+                        <tbody id="attendanceTable"></tbody>
+                    </table>
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- RESULTS -->
+
+        <section class="page" id="results">
+
+            <div class="panel">
+                <div class="panel-heading">
+                    <div>
+                        <h3>Student Results</h3>
+                        <p>View academic performance.</p>
+                    </div>
+                </div>
+
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Student ID</th>
+                                <th>Name</th>
+                                <th>Class</th>
+                                <th>Marks</th>
+                                <th>Grade</th>
+                            </tr>
+                        </thead>
+                        <tbody id="resultsTable"></tbody>
+                    </table>
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+<!-- STUDENT MODAL -->
+
+<div class="modal" id="studentModal">
+
+    <div class="modal-content">
+
+        <div class="modal-header">
+            <h2 id="modalTitle">Add New Student</h2>
+            <button id="closeModal">&times;</button>
+        </div>
+
+
+        <form id="studentForm">
+
+            <input type="hidden" id="editId">
+
+            <div class="form-grid">
+
+                <div class="form-group">
+                    <label>Full Name *</label>
+                    <input type="text" id="studentName" required
+                        placeholder="Enter student name">
+                </div>
+
+                <div class="form-group">
+                    <label>Gender *</label>
+                    <select id="studentGender" required>
+                        <option value="">Select Gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Email *</label>
+                    <input type="email" id="studentEmail" required
+                        placeholder="example@gmail.com">
+                </div>
+
+                <div class="form-group">
+                    <label>Phone *</label>
+                    <input type="tel" id="studentPhone" required
+                        placeholder="01XXXXXXXXX" pattern="[0-9+ \x2D]{8,20}"
+    title="Enter a valid phone number">
+                </div>
+
+                <div class="form-group">
+                    <label>Class *</label>
+                    <select id="studentClass" required>
+                        <option value="">Select Class</option>
+                        <option>Class 6</option>
+                        <option>Class 7</option>
+                        <option>Class 8</option>
+                        <option>Class 9</option>
+                        <option>Class 10</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Marks (0-100)</label>
+                    <input type="number" id="studentMarks"
+                        min="0" max="100" value="0" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Status</label>
+                    <select id="studentStatus">
+                        <option>Active</option>
+                        <option>Inactive</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <div class="modal-actions">
+                <button type="button" class="secondary-btn" id="cancelBtn">
+                    Cancel
+                </button>
+                <button type="submit" class="primary-btn">
+                    Save Student
+                </button>
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
